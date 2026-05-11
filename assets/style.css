@@ -29,28 +29,29 @@ body {
 a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
 a:hover { color: var(--muted); }
 
-/* Site header (logo) */
+/* Site header (logo) — inline with content, no divider */
 .site-header {
-  border-bottom: 1px solid var(--line);
-  padding: 18px 24px;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 32px 24px 0;
 }
 .site-header .logo {
-  display: block;
-  max-width: 220px;
+  display: inline-block;
+  max-width: 130px;
 }
 .site-header .logo img,
 .site-header .logo svg { display: block; width: 100%; height: auto; }
 
 @media (max-width: 480px) {
-  .site-header { padding: 14px 18px; }
-  .site-header .logo { max-width: 170px; }
+  .site-header { padding: 24px 18px 0; }
+  .site-header .logo { max-width: 110px; }
 }
 
 /* Shared layout */
 .shell {
   max-width: var(--measure);
   margin: 0 auto;
-  padding: 40px 24px 80px;
+  padding: 24px 24px 80px;
 }
 .eyebrow {
   text-transform: uppercase;
@@ -137,7 +138,7 @@ p.muted { color: var(--muted); font-size: 14px; line-height: 1.6; }
 .manual-form button:hover { background: #fff; color: var(--fg); }
 
 /* Certificate pages */
-.cert-shell { max-width: var(--measure); margin: 0 auto; padding: 40px 24px 80px; }
+.cert-shell { max-width: var(--measure); margin: 0 auto; padding: 24px 24px 80px; }
 .cert-shell .eyebrow { margin-bottom: 10px; }
 .cert-number {
   font-family: "Cormorant Garamond", serif;
