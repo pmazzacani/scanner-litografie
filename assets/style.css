@@ -34,17 +34,43 @@ a:hover { color: var(--muted); }
   max-width: var(--measure);
   margin: 0 auto;
   padding: 32px 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 .site-header .logo {
   display: inline-block;
   max-width: 130px;
+  flex-shrink: 0;
 }
 .site-header .logo img,
 .site-header .logo svg { display: block; width: 100%; height: auto; }
 
+.lang-switcher {
+  display: flex;
+  gap: 14px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+.lang-switcher a {
+  color: var(--muted);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.lang-switcher a:hover { color: var(--fg); }
+.lang-switcher a.active {
+  color: var(--fg);
+  border-bottom-color: var(--fg);
+}
+
 @media (max-width: 480px) {
   .site-header { padding: 24px 18px 0; }
   .site-header .logo { max-width: 110px; }
+  .lang-switcher { gap: 10px; font-size: 10px; }
 }
 
 /* Shared layout */

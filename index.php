@@ -3,11 +3,25 @@ declare(strict_types=1);
 
 require __DIR__ . '/lib/env.php';
 require __DIR__ . '/lib/c3rt.php';
+require __DIR__ . '/lib/i18n.php';
 
 load_env(__DIR__ . '/.env');
 
+$lang = detect_lang();
+if (!empty($_GET['lang']) && $_GET['lang'] === $lang) {
+    setcookie('lang', $lang, [
+        'expires'  => time() + 31536000,
+        'path'     => '/',
+        'samesite' => 'Lax',
+        'secure'   => true,
+    ]);
+}
+$T = load_translations($lang);
+
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Pragma: no-cache');
+header('Content-Language: ' . $lang);
+header('Vary: Cookie, Accept-Language');
 
 $rawId = $_GET['id'] ?? '';
 $microId = $rawId !== '' ? extract_micro_id($rawId) : null;

@@ -1,29 +1,39 @@
 <?php
-$pageTitle = 'Scanner di Autenticità — Modigliani Archives Legales';
+$pageTitle = t('meta.scanner');
 require __DIR__ . '/_header.php';
 ?>
 <main class="shell">
-  <p class="eyebrow">Sistema di Verifica</p>
-  <h1>Scanner di Autenticità</h1>
+  <p class="eyebrow"><?= htmlspecialchars(t('scanner.eyebrow')) ?></p>
+  <h1><?= htmlspecialchars(t('scanner.h1')) ?></h1>
 
   <div class="intro">
-    <p class="lead">Questo strumento verifica l'autenticità delle litografie e delle cartelle litografiche custodite presso il Modigliani Archives Legales.</p>
-    <p>Inquadrando il codice QR apposto sull'opera o sulla cartella, il sistema interroga il registro ufficiale di certificazione e mostra i dati anagrafici dell'oggetto: numero d'archivio, dimensioni, riferimento al catalogo ragionato e identificativo crittografico univoco. La presenza del certificato attesta l'esistenza e l'originalità dell'opera nell'archivio.</p>
+    <p class="lead"><?= htmlspecialchars(t('scanner.lead')) ?></p>
+    <p><?= htmlspecialchars(t('scanner.body')) ?></p>
   </div>
 
-  <h2>Inquadra il codice</h2>
+  <h2><?= htmlspecialchars(t('scanner.h2')) ?></h2>
   <div id="reader" class="reader"></div>
   <div id="status" class="status" hidden></div>
 
   <details class="manual">
-    <summary>Inserimento manuale</summary>
+    <summary><?= htmlspecialchars(t('scanner.manual')) ?></summary>
     <form method="get" action="/" class="manual-form">
       <input type="text" name="id" placeholder="es. AEF1CB88" required pattern="[0-9A-Fa-f]{8}" maxlength="8" autocomplete="off">
-      <button type="submit">Verifica</button>
+      <?php if (!empty($_GET['lang'])): ?>
+        <input type="hidden" name="lang" value="<?= htmlspecialchars($lang) ?>">
+      <?php endif; ?>
+      <button type="submit"><?= htmlspecialchars(t('scanner.verify')) ?></button>
     </form>
   </details>
 </main>
 
+<script>
+window.T = <?= json_encode([
+    'not_recognized' => t('js.not_recognized'),
+    'detected'       => t('js.detected'),
+    'camera_fail'    => t('js.camera_fail'),
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+</script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script>
 (function () {
@@ -48,20 +58,18 @@ require __DIR__ . '/_header.php';
     if (handled) return;
     const hex = extractHex(decodedText);
     if (!hex) {
-      setStatus('Codice letto, ma formato non riconosciuto: ' + decodedText, 'warn');
+      setStatus(window.T.not_recognized + decodedText, 'warn');
       return;
     }
     handled = true;
-    setStatus('Codice rilevato: ' + hex + ' — verifica in corso…', 'ok');
+    setStatus(window.T.detected.replace('%s', hex), 'ok');
     html5QrCode.stop().catch(() => {}).finally(() => {
       window.location.href = '/?id=' + encodeURIComponent(hex);
     });
   }
 
   html5QrCode.start({ facingMode: 'environment' }, config, onSuccess)
-    .catch(err => {
-      setStatus('Impossibile accedere alla fotocamera. Concedere i permessi o utilizzare l\'inserimento manuale.', 'warn');
-    });
+    .catch(err => { setStatus(window.T.camera_fail, 'warn'); });
 })();
 </script>
 <?php require __DIR__ . '/_footer.php'; ?>
