@@ -1,8 +1,9 @@
 <?php
 $meta = $cert['metadata'] ?? [];
 $title = $meta['title'] ?? '—';
-$archive = $meta['archive_id'] ?? '—';
+$archive = $meta['archive_id'] ?? '';
 $date = $meta['original_date'] ?? '—';
+$dimensions = $meta['dimensions'] ?? '';
 $wid = $cert['wid'] ?? '—';
 $micro = $cert['microID'] ?? '—';
 $tag = $cert['tag'] ?? '';
@@ -23,12 +24,17 @@ $tag = $cert['tag'] ?? '';
   <dl class="cert-meta">
     <dt>Numero</dt><dd><?= htmlspecialchars((string)$wid) ?></dd>
     <dt>Data</dt><dd><?= htmlspecialchars((string)$date) ?></dd>
-    <dt>Archive ID</dt><dd><?= htmlspecialchars((string)$archive) ?></dd>
+<?php if ($dimensions !== ''): ?>
+    <dt>Dimensioni:</dt><dd><?= htmlspecialchars((string)$dimensions) ?></dd>
+<?php endif; ?>
+<?php if ($archive !== ''): ?>
+    <dt>Catalogo ragionato:</dt><dd><?= htmlspecialchars((string)$archive) ?></dd>
+<?php endif; ?>
     <dt>Tag</dt><dd><?= htmlspecialchars((string)$tag) ?></dd>
     <dt>Micro ID</dt><dd><?= htmlspecialchars((string)$micro) ?></dd>
   </dl>
 
-  <p class="note">Campi aggiuntivi (immagine, tecnica, dimensioni, codice catalogo) verranno integrati nella prossima iterazione.</p>
+  <p class="note">L'immagine sarà disponibile non appena caricata nell'archivio.</p>
 
   <a class="back" href="/">← Scansiona un altro codice</a>
 </main>
