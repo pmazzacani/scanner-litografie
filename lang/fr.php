@@ -39,5 +39,5 @@ return [
 
     'raw.eyebrow' => 'Type non reconnu — %s',
 
-    'footer.text' => "© Modigliani Archives Legales — Certificat d'Authenticité",
+    'footer.text' => "© Fondation Archives Legales Amedeo Modigliani — Certificat d'Authenticité",
 ];
