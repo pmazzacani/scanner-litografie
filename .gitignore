@@ -1,0 +1,10 @@
+.env
+.DS_Store
+.claude/
+vendor/
+node_modules/
+qr_code_*.jpeg
+qr_code_*.png
+qr-*.png
+qr-*.jpeg
+*.log
