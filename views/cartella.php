@@ -3,27 +3,22 @@ $title = $cert['metadata']['title'] ?? '—';
 $wid = $cert['wid'] ?? '—';
 $micro = $cert['microID'] ?? '—';
 $tag = $cert['tag'] ?? '';
+$pageTitle = 'Cartella ' . $wid . ' — Modigliani Archives Legales';
+require __DIR__ . '/_header.php';
 ?>
-<!doctype html>
-<html lang="it">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cartella <?= htmlspecialchars((string)$wid) ?> — Archivio Modigliani</title>
-<link rel="stylesheet" href="/assets/style.css">
-</head>
-<body class="cert-body">
 <main class="cert-shell">
+  <div class="certified-banner">Autenticità certificata</div>
   <p class="eyebrow">Cartella Litografica</p>
-  <h1 class="cert-number">N. <?= htmlspecialchars((string)$wid) ?> / 49</h1>
+  <h1 class="cert-number">N. <?= htmlspecialchars((string)$wid) ?> <span style="color:var(--muted);font-size:0.5em;letter-spacing:0;">/ 49</span></h1>
   <p class="cert-title"><?= htmlspecialchars((string)$title) ?></p>
 
   <dl class="cert-meta">
     <dt>Micro ID</dt><dd><?= htmlspecialchars((string)$micro) ?></dd>
-    <dt>Tag</dt><dd><?= htmlspecialchars((string)$tag) ?></dd>
+<?php if ($tag !== ''): ?>
+    <dt>Riferimento</dt><dd><?= htmlspecialchars((string)$tag) ?></dd>
+<?php endif; ?>
   </dl>
 
-  <a class="back" href="/">← Scansiona un altro codice</a>
+  <a class="back" href="/">← Verifica un altro codice</a>
 </main>
-</body>
-</html>
+<?php require __DIR__ . '/_footer.php'; ?>

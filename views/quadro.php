@@ -7,36 +7,32 @@ $dimensions = $meta['dimensions'] ?? '';
 $wid = $cert['wid'] ?? '—';
 $micro = $cert['microID'] ?? '—';
 $tag = $cert['tag'] ?? '';
+$pageTitle = $title . ' — Modigliani Archives Legales';
+require __DIR__ . '/_header.php';
 ?>
-<!doctype html>
-<html lang="it">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Opera <?= htmlspecialchars((string)$wid) ?> — <?= htmlspecialchars((string)$title) ?></title>
-<link rel="stylesheet" href="/assets/style.css">
-</head>
-<body class="cert-body">
 <main class="cert-shell">
-  <p class="eyebrow">Opera</p>
-  <h1 class="cert-title"><?= htmlspecialchars((string)$title) ?></h1>
+  <div class="certified-banner">Autenticità certificata</div>
+  <p class="eyebrow">Opera N. <?= htmlspecialchars((string)$wid) ?></p>
+  <h1 class="cert-title" style="margin-top:8px;"><?= htmlspecialchars((string)$title) ?></h1>
 
   <dl class="cert-meta">
-    <dt>Numero</dt><dd><?= htmlspecialchars((string)$wid) ?></dd>
+<?php if ($date !== '' && $date !== '—'): ?>
     <dt>Data</dt><dd><?= htmlspecialchars((string)$date) ?></dd>
+<?php endif; ?>
 <?php if ($dimensions !== ''): ?>
-    <dt>Dimensioni:</dt><dd><?= htmlspecialchars((string)$dimensions) ?></dd>
+    <dt>Dimensioni</dt><dd><?= htmlspecialchars((string)$dimensions) ?></dd>
 <?php endif; ?>
 <?php if ($archive !== ''): ?>
-    <dt>Catalogo ragionato:</dt><dd><?= htmlspecialchars((string)$archive) ?></dd>
+    <dt>Catalogo ragionato</dt><dd><?= htmlspecialchars((string)$archive) ?></dd>
 <?php endif; ?>
-    <dt>Tag</dt><dd><?= htmlspecialchars((string)$tag) ?></dd>
     <dt>Micro ID</dt><dd><?= htmlspecialchars((string)$micro) ?></dd>
+<?php if ($tag !== ''): ?>
+    <dt>Riferimento</dt><dd><?= htmlspecialchars((string)$tag) ?></dd>
+<?php endif; ?>
   </dl>
 
-  <p class="note">L'immagine sarà disponibile non appena caricata nell'archivio.</p>
+  <p class="note">L'immagine dell'opera sarà disponibile non appena caricata nell'archivio.</p>
 
-  <a class="back" href="/">← Scansiona un altro codice</a>
+  <a class="back" href="/">← Verifica un altro codice</a>
 </main>
-</body>
-</html>
+<?php require __DIR__ . '/_footer.php'; ?>

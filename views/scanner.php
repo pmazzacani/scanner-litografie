@@ -1,35 +1,30 @@
 <?php
-$pageTitle = 'Scanner Litografie Modigliani';
+$pageTitle = 'Scanner di Autenticità — Modigliani Archives Legales';
+require __DIR__ . '/_header.php';
 ?>
-<!doctype html>
-<html lang="it">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title><?= htmlspecialchars($pageTitle) ?></title>
-<link rel="stylesheet" href="/assets/style.css">
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-</head>
-<body class="scanner-body">
-<main class="scanner-shell">
-  <header class="scanner-header">
-    <h1>Archivio Modigliani</h1>
-    <p class="subtitle">Inquadra il QR code della cartella o dell'opera</p>
-  </header>
+<main class="shell">
+  <p class="eyebrow">Sistema di Verifica</p>
+  <h1>Scanner di Autenticità</h1>
 
+  <div class="intro">
+    <p class="lead">Questo strumento verifica l'autenticità delle litografie e delle cartelle litografiche custodite presso il Modigliani Archives Legales.</p>
+    <p>Inquadrando il codice QR apposto sull'opera o sulla cartella, il sistema interroga il registro ufficiale di certificazione e mostra i dati anagrafici dell'oggetto: numero d'archivio, dimensioni, riferimento al catalogo ragionato e identificativo crittografico univoco. La presenza del certificato attesta l'esistenza e l'originalità dell'opera nell'archivio.</p>
+  </div>
+
+  <h2>Inquadra il codice</h2>
   <div id="reader" class="reader"></div>
-
   <div id="status" class="status" hidden></div>
 
   <details class="manual">
-    <summary>Inserisci codice manualmente</summary>
+    <summary>Inserimento manuale</summary>
     <form method="get" action="/" class="manual-form">
       <input type="text" name="id" placeholder="es. AEF1CB88" required pattern="[0-9A-Fa-f]{8}" maxlength="8" autocomplete="off">
-      <button type="submit">Cerca</button>
+      <button type="submit">Verifica</button>
     </form>
   </details>
 </main>
 
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script>
 (function () {
   const statusEl = document.getElementById('status');
@@ -53,11 +48,11 @@ $pageTitle = 'Scanner Litografie Modigliani';
     if (handled) return;
     const hex = extractHex(decodedText);
     if (!hex) {
-      setStatus('QR letto ma formato non riconosciuto: ' + decodedText, 'warn');
+      setStatus('Codice letto, ma formato non riconosciuto: ' + decodedText, 'warn');
       return;
     }
     handled = true;
-    setStatus('Codice rilevato: ' + hex + ' — caricamento...', 'ok');
+    setStatus('Codice rilevato: ' + hex + ' — verifica in corso…', 'ok');
     html5QrCode.stop().catch(() => {}).finally(() => {
       window.location.href = '/?id=' + encodeURIComponent(hex);
     });
@@ -65,9 +60,8 @@ $pageTitle = 'Scanner Litografie Modigliani';
 
   html5QrCode.start({ facingMode: 'environment' }, config, onSuccess)
     .catch(err => {
-      setStatus('Impossibile aprire la fotocamera. Concedi i permessi o usa l\'inserimento manuale. (' + err + ')', 'warn');
+      setStatus('Impossibile accedere alla fotocamera. Concedere i permessi o utilizzare l\'inserimento manuale.', 'warn');
     });
 })();
 </script>
-</body>
-</html>
+<?php require __DIR__ . '/_footer.php'; ?>
